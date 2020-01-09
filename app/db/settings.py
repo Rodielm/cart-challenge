@@ -1,14 +1,22 @@
 import logging
 import random as ra
+from app.core import config
 from decimal import (Decimal)
 from .base import *
 
-db_params = {'provider': 'sqlite', 'filename': 'cartdb.db', 'create_db': True}
+dbname = config.DB_NAME
+
+db_params = {'provider': 'sqlite', 'filename': dbname, 'create_db': True}
 
 
 def init():
     db.bind(db_params)
     try:
+        db.drop_table('Cart',True,with_all_data=True)
+    except Exception as e:
+        logging.error("exception: {}".format(e))      
+    try:
+        logging.info('DB_NAME: {}'.format(config.DB_NAME))
         logging.info("initilize database")
         db.generate_mapping(create_tables=True)
         if isPopulated() is False:
@@ -22,14 +30,9 @@ def populate_database():
     logging.info("populating database...")
     for i in range(20):
         db.Product(
-            name="Product {}".format(i),
-            description='Description {}'.format(i),
+            name="Product {}".format(i+1),
+            description='Description {}'.format(i+1),
             price=Decimal(ra.uniform(1.00, 100.00)))
-    logging.info("Products -- ".format(db.Product.select()))
-    commit()
-    pro = db.Product[1]
-    db.Cart(product=pro,price=pro.price,qty=1)
-    commit()
 
 
 @db_session

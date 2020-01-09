@@ -5,7 +5,11 @@ This a challenge project developed with FastApi and PonyOrm
 ## Build the images 
 
 ```bash
-docker build -t <name-image> .
+docker build -t <name-image> . 
+
+or
+
+docker build -t <name-image> -f <dockerfile> .
 ```
 
 ## Run the container 
@@ -19,6 +23,19 @@ if you want to change or test and automatically reload the project
 ```bash
 docker run -d --name <name-container> -v$PWD/app:/app  -p 80:80 <name-image> /start-reload.sh
 ```
+
+## Run the test 
+
+```bash
+docker run -d --name <name-container> -v$PWD/app:/app  -p 80:8888 <name-image>
+```
+
+if you want to change or test and automatically reload the project
+
+```bash
+docker run -d --name <name-container> -v$PWD/app:/app  -p 80:8888 <name-image> /start-reload.sh
+```
+
 ## Interactive API docs
 
 Now go to http://<host:port>/docs. 

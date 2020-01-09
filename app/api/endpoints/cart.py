@@ -28,9 +28,9 @@ def read_items_cart():
 
 
 @router.post("/", status_code=HTTP_200_OK)
-def add_items(item: Cart):
+def add_item(item: Cart):
     row = db.add_item_cart(item)
     if not row:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND,
                             detail="Product not exist")
-    return db.add_item_cart(item)
+    return row

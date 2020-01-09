@@ -9,16 +9,18 @@ from app.db.base import db
 def read_cart() -> CartInResponse:
     cart: CartInResponse = {}
     items: List[OrderInResponse] = []
+
+
     try:
         rows = select(c for c in db.Cart)[:]
         for row in rows:
+            item = {}
             item = row.to_dict()
             item['product'] = row.product.to_dict()
             items.append(item)
 
         cart['order'] = items
         cart['total'] = sum([x['price'] for x in cart['order']])
-
     except Exception as e:
         logging.error(e)
     return cart
