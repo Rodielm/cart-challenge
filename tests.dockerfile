@@ -6,13 +6,11 @@ WORKDIR /
 
 RUN pip3 install -r test_requirements.txt
 
-EXPOSE 8888
-
 COPY ./app /app
 
-COPY ./tests-start.sh /tests-start.sh
-
 COPY ./test.env /.env
+
+COPY ./tests-start.sh /tests-start.sh
 
 RUN chmod +x /tests-start.sh
 
@@ -20,4 +18,4 @@ RUN chmod +x /tests-start.sh
 CMD [ "bash","-c","while true; do sleep 1; done" ]
 
 # After the container started
-# docker exec -it imagename /tests-start.sh
+# docker exec -it container-name /tests-start.sh
